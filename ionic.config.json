@@ -1,0 +1,7 @@
+{
+  "name": "InstitucionEducativa2005",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular-standalone"
+}
