@@ -1,0 +1,52 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/user-list"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Editar Usuario</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  @if (isLoading) {
+    <div class="ion-text-center">
+      <ion-spinner name="crescent"></ion-spinner>
+    </div>
+  } @else {
+    <ion-list>
+      <ion-item>
+        <ion-input label="Nombre Completo" label-placement="stacked" [value]="user.nombreCompleto" [readonly]="true"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-input label="Correo Electrónico" label-placement="stacked" [value]="user.email" [readonly]="true"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-select label="Rol del Usuario" label-placement="stacked" [(ngModel)]="user.rol" interface="action-sheet">
+          <ion-select-option value="estudiante">Estudiante</ion-select-option>
+          <ion-select-option value="profesor">Profesor</ion-select-option>
+          <ion-select-option value="administrador">Administrador</ion-select-option>
+        </ion-select>
+      </ion-item>
+
+      <!-- **NUEVO MENÚ DESPLEGABLE PARA EL GRADO** -->
+      <!-- Se muestra solo si el rol es 'estudiante' -->
+      @if (user.rol === 'estudiante') {
+        <ion-item>
+          <ion-select label="Grado y Sección" label-placement="stacked" [(ngModel)]="user.gradoId" interface="action-sheet">
+            <!-- Opción para desasignar un grado -->
+            <ion-select-option [value]="null">Sin asignar</ion-select-option>
+            @if (grados$ | async; as grados) {
+              @for (grado of grados; track grado.id) {
+                <ion-select-option [value]="grado.id">{{ grado.nombre }} - {{ grado.seccion }}</ion-select-option>
+              }
+            }
+          </ion-select>
+        </ion-item>
+      }
+    </ion-list>
+
+    <ion-button expand="block" (click)="saveUser()" class="ion-margin-top">
+      Guardar Cambios
+    </ion-button>
+  }
+</ion-content>

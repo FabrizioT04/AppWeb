@@ -1,0 +1,37 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-back-button [defaultHref]="'/course-detail/' + asignacionId"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Inscribir Estudiantes</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <ion-spinner *ngIf="cargando" name="crescent" class="spinner-center"></ion-spinner>
+
+  <div *ngIf="!cargando">
+    <ion-list-header>
+      <ion-label>Selecciona los estudiantes a inscribir</ion-label>
+    </ion-list-header>
+
+    <ion-list [inset]="true">
+      <ion-item *ngFor="let estudiante of listaEstudiantes">
+        <ion-checkbox
+          slot="start"
+          [(ngModel)]="estudiante.inscrito"
+          labelPlacement="end"
+          justify="start"
+        >
+          {{ estudiante.nombreCompleto }}
+        </ion-checkbox>
+      </ion-item>
+    </ion-list>
+
+    <ion-button expand="block" (click)="guardarInscripciones()" class="ion-margin-top">
+      Guardar Inscripciones
+      <ion-icon name="save-outline" slot="end"></ion-icon>
+    </ion-button>
+  </div>
+</ion-content>
+

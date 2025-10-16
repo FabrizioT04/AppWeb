@@ -3,34 +3,34 @@ import { TabsPage } from './tabs.page';
 
 export const routes: Routes = [
   {
-    path: 'tabs',
+    path: '', // El path principal está vacío porque se define en app.routes.ts
     component: TabsPage,
     children: [
       {
-        path: 'tab1',
+        path: 'tab1', // Ruta para Inicio
         loadComponent: () =>
           import('../tab1/tab1.page').then((m) => m.Tab1Page),
       },
       {
-        path: 'tab2',
+        path: 'tab2', // Ruta para Cursos
         loadComponent: () =>
           import('../tab2/tab2.page').then((m) => m.Tab2Page),
       },
       {
-        path: 'tab3',
+        path: 'schedule', // Ruta para el nuevo Horario
+        loadChildren: () =>
+          import('../schedule/schedule.routes').then((m) => m.routes),
+      },
+      {
+        path: 'tab3', // Ruta para Perfil
         loadComponent: () =>
           import('../tab3/tab3.page').then((m) => m.Tab3Page),
       },
       {
         path: '',
-        redirectTo: '/tabs/tab1',
+        redirectTo: 'tab1', // Redirige al primer tab por defecto
         pathMatch: 'full',
       },
     ],
-  },
-  {
-    path: '',
-    redirectTo: '/tabs/tab1',
-    pathMatch: 'full',
-  },
+  }
 ];

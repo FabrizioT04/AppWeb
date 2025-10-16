@@ -1,0 +1,50 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/tabs/tab1"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Gestionar Cursos</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  @if (cursos$ | async; as cursos) {
+    @if (cursos.length > 0) {
+      <ion-list [inset]="true">
+        @for (curso of cursos; track curso.id) {
+          <ion-item-sliding>
+            <ion-item>
+              <ion-label>
+                <h2>{{ curso.nombre }}</h2>
+                <p>{{ curso.area }}</p>
+              </ion-label>
+            </ion-item>
+
+            <ion-item-options side="end">
+              <ion-item-option color="light" (click)="editCourse(curso)">
+                <ion-icon slot="icon-only" [icon]="icons['createOutline']"></ion-icon>
+              </ion-item-option>
+              <ion-item-option color="danger" (click)="deleteCourse(curso)">
+                <ion-icon slot="icon-only" [icon]="icons['trashOutline']"></ion-icon>
+              </ion-item-option>
+            </ion-item-options>
+          </ion-item-sliding>
+        }
+      </ion-list>
+    } @else {
+      <div class="ion-text-center ion-padding">
+        <p>No hay cursos definidos en el sistema.</p>
+      </div>
+    }
+  } @else {
+    <div class="ion-text-center ion-padding">
+      <ion-spinner name="crescent"></ion-spinner>
+    </div>
+  }
+
+  <ion-fab vertical="bottom" horizontal="end" slot="fixed">
+    <ion-fab-button (click)="addNewCourse()">
+      <ion-icon [icon]="icons['add']"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
+</ion-content>

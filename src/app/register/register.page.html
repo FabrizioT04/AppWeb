@@ -1,0 +1,40 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/login"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Crear Cuenta</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <div class="login-header">
+    <ion-icon name="person-add-outline" color="primary" class="header-icon"></ion-icon>
+    <h1>Regístrate</h1>
+    <p>Crea una nueva cuenta para acceder a la plataforma.</p>
+  </div>
+
+  <ion-list class="ion-no-padding">
+    <!-- ¡NUEVO CAMPO! -->
+    <ion-item lines="full">
+      <ion-input label="Nombre Completo" labelPlacement="floating" [(ngModel)]="nombreCompleto" required></ion-input>
+    </ion-item>
+
+    <ion-item lines="full">
+      <ion-input label="Correo Electrónico" labelPlacement="floating" [(ngModel)]="email" type="email" required></ion-input>
+    </ion-item>
+
+    <ion-item lines="full">
+      <ion-input label="Contraseña" labelPlacement="floating" [(ngModel)]="password" type="password" required></ion-input>
+    </ion-item>
+
+    <ion-item lines="full">
+      <ion-input label="Confirmar Contraseña" labelPlacement="floating" [(ngModel)]="confirmPassword" type="password" required></ion-input>
+    </ion-item>
+  </ion-list>
+  
+  <ion-button expand="block" (click)="register()" [disabled]="!nombreCompleto || !email || !password || password !== confirmPassword" class="ion-margin-top">
+    Registrarse
+  </ion-button>
+</ion-content>
+

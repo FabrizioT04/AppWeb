@@ -1,0 +1,63 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/tabs/tab2"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Detalles de la Clase</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  @if (claseDetalle$ | async; as detalle) {
+    <ion-card>
+      <ion-card-header>
+        <ion-card-title>{{ detalle.nombreCurso }}</ion-card-title>
+        <ion-card-subtitle>{{ detalle.nombreGrado }}</ion-card-subtitle>
+      </ion-card-header>
+      <ion-card-content>
+        <ion-item lines="none">
+          <ion-icon [icon]="icons['personCircleOutline']" slot="start"></ion-icon>
+          <ion-label>
+            <h3>Profesor</h3>
+            <p>{{ detalle.nombreProfesor }}</p>
+          </ion-label>
+        </ion-item>
+      </ion-card-content>
+    </ion-card>
+
+    <!-- ========= OPCIONES PARA EL PROFESOR DE ESTA CLASE ========= -->
+    @if (userRole === 'profesor' && esProfesorDeEstaClase) {
+      <ion-list-header>Acciones del Profesor</ion-list-header>
+      <ion-list [inset]="true">
+        <ion-item button="true" (click)="goToManageAttendance()">
+          <ion-icon [icon]="icons['checkmarkDoneOutline']" slot="start"></ion-icon>
+          <ion-label>Tomar Asistencia</ion-label>
+        </ion-item>
+        <ion-item button="true" (click)="goToManageGrades()">
+          <ion-icon [icon]="icons['createOutline']" slot="start"></ion-icon>
+          <ion-label>Gestionar Calificaciones</ion-label>
+        </ion-item>
+      </ion-list>
+    }
+
+    <!-- ========= OPCIONES PARA EL ESTUDIANTE INSCRITO ========= -->
+    @if (userRole === 'estudiante' && esEstudianteInscrito) {
+      <ion-list-header>Mi Progreso</ion-list-header>
+      <ion-list [inset]="true">
+        <ion-item button="true" (click)="goToMyGrades()">
+          <ion-icon [icon]="icons['statsChartOutline']" slot="start"></ion-icon>
+          <ion-label>Ver mis Calificaciones</ion-label>
+        </ion-item>
+        <ion-item button="true" (click)="goToMyAttendance()">
+          <ion-icon [icon]="icons['schoolOutline']" slot="start"></ion-icon>
+          <ion-label>Ver mis Asistencias</ion-label>
+        </ion-item>
+      </ion-list>
+    }
+
+  } @else {
+    <div class="ion-text-center ion-padding">
+      <ion-spinner name="crescent"></ion-spinner>
+    </div>
+  }
+</ion-content>

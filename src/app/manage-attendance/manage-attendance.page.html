@@ -1,0 +1,61 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/tabs/tab2"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Registro de Asistencia</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <ion-item>
+    <ion-select label="Seleccionar Clase" placeholder="Elige una clase" [(ngModel)]="asignacionSeleccionada" (ionChange)="cargarEstudiantes()">
+      <ion-select-option *ngFor="let asignacion of asignaciones" [value]="asignacion.id">
+        {{ asignacion.nombreCurso }} - {{ asignacion.nombreGrado }}
+      </ion-select-option>
+    </ion-select>
+  </ion-item>
+
+  <ion-spinner *ngIf="cargandoEstudiantes" name="crescent" class="spinner-center"></ion-spinner>
+
+  <div *ngIf="asignacionSeleccionada && !cargandoEstudiantes">
+    <ion-list-header>
+      <ion-label>Lista de Alumnos</ion-label>
+    </ion-list-header>
+
+    <div *ngIf="estudiantes.length === 0" class="ion-text-center ion-padding">
+      <p>No hay estudiantes inscritos en esta clase.</p>
+    </div>
+
+    <ion-card *ngFor="let estudiante of estudiantes" class="ion-margin-bottom">
+      <ion-card-content>
+        <ion-item lines="none">
+          <ion-icon name="person-circle-outline" slot="start" color="primary"></ion-icon>
+          <ion-label>{{ estudiante.nombreCompleto }}</ion-label>
+        </ion-item>
+
+        <!-- Botones para marcar la asistencia -->
+        <ion-segment [value]="estudiante.estadoAsistencia" (ionChange)="marcarAsistencia(estudiante.id, $event.detail.value)">
+          <ion-segment-button value="PRESENTE">
+            <ion-label color="success">Presente</ion-label>
+          </ion-segment-button>
+          <ion-segment-button value="FALTA">
+            <ion-label color="danger">Falta</ion-label>
+          </ion-segment-button>
+          <ion-segment-button value="TARDANZA">
+            <ion-label color="warning">Tardanza</ion-label>
+          </ion-segment-button>
+        </ion-segment>
+      </ion-card-content>
+    </ion-card>
+    
+    <ion-footer class="ion-no-border" *ngIf="estudiantes.length > 0">
+      <ion-toolbar>
+        <ion-button (click)="guardarLista()" expand="block" color="primary" class="ion-margin">
+          Guardar Asistencia
+          <ion-icon slot="end" name="save-outline"></ion-icon>
+        </ion-button>
+      </ion-toolbar>
+    </ion-footer>
+  </div>
+</ion-content>

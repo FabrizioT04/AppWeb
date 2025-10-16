@@ -1,0 +1,36 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-title>Mi Perfil</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <ion-spinner *ngIf="cargando" name="crescent" class="spinner-center"></ion-spinner>
+
+  <div *ngIf="!cargando && usuario">
+    <div class="profile-header ion-text-center">
+      <!-- Avatar con la foto del usuario o un placeholder -->
+      <ion-avatar (click)="cambiarFotoPerfil()">
+        <img [src]="usuario.photoURL || 'https://ionicframework.com/docs/img/demos/avatar.svg'" />
+      </ion-avatar>
+      <ion-button fill="clear" size="small" (click)="cambiarFotoPerfil()">
+        Cambiar Foto
+      </ion-button>
+      <h2>{{ usuario.nombreCompleto }}</h2>
+      <p>{{ usuario.email }}</p>
+    </div>
+
+    <ion-list [inset]="true">
+      <ion-item>
+        <ion-label>
+          <h3>Rol</h3>
+          <p class="ion-text-capitalize">{{ usuario.rol }}</p>
+        </ion-label>
+      </ion-item>
+    </ion-list>
+
+    <ion-button expand="block" color="danger" (click)="cerrarSesion()" class="ion-margin-top">
+      Cerrar Sesión
+    </ion-button>
+  </div>
+</ion-content>

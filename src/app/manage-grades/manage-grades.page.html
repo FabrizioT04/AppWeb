@@ -1,0 +1,61 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-back-button [defaultHref]="courseId ? '/course-detail/' + courseId : '/tabs/tab2'"></ion-back-button>
+    </ion-buttons>
+    <ion-title>{{ tituloClase }}</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <ion-spinner *ngIf="cargando" name="crescent" class="spinner-center"></ion-spinner>
+
+  <div *ngIf="!cargando">
+    <ion-grid>
+      <!-- Fila de Encabezado -->
+      <ion-row class="header-row">
+        <ion-col size="4">Estudiante</ion-col>
+        <ion-col size="1.5" class="ion-text-center">Bim. 1</ion-col>
+        <ion-col size="1.5" class="ion-text-center">Bim. 2</ion-col>
+        <ion-col size="1.5" class="ion-text-center">Bim. 3</ion-col>
+        <ion-col size="1.5" class="ion-text-center">Bim. 4</ion-col>
+        <ion-col size="2" class="ion-text-center">Prom.</ion-col>
+      </ion-row>
+
+      <div *ngIf="estudiantesConNotas.length === 0" class="ion-text-center ion-padding">
+        No hay estudiantes inscritos para calificar.
+      </div>
+
+      <!-- Fila por cada Estudiante -->
+      <ion-row *ngFor="let item of estudiantesConNotas" class="data-row ion-align-items-center">
+        <ion-col size="4">{{ item.nombreCompleto }}</ion-col>
+        <ion-col size="1.5">
+          <ion-input type="number" class="grade-input" [(ngModel)]="item.notas.bimestre1" (ionChange)="calcularPromedio(item)"></ion-input>
+        </ion-col>
+        <ion-col size="1.5">
+          <ion-input type="number" class="grade-input" [(ngModel)]="item.notas.bimestre2" (ionChange)="calcularPromedio(item)"></ion-input>
+        </ion-col>
+        <ion-col size="1.5">
+          <ion-input type="number" class="grade-input" [(ngModel)]="item.notas.bimestre3" (ionChange)="calcularPromedio(item)"></ion-input>
+        </ion-col>
+        <ion-col size="1.5">
+          <ion-input type="number" class="grade-input" [(ngModel)]="item.notas.bimestre4" (ionChange)="calcularPromedio(item)"></ion-input>
+        </ion-col>
+        <ion-col size="2" class="ion-text-center">
+          <strong>{{ item.notas.promedioFinal | number:'1.1-2' }}</strong>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </div>
+
+  <ion-footer class="ion-no-border" *ngIf="!cargando && estudiantesConNotas.length > 0">
+    <ion-toolbar>
+      <ion-button (click)="saveGrades()" expand="block" color="primary" class="ion-margin" [disabled]="guardando">
+        <ion-spinner *ngIf="guardando" name="crescent"></ion-spinner>
+        <span *ngIf="!guardando">Guardar Notas</span>
+        <ion-icon *ngIf="!guardando" slot="end" name="save-outline"></ion-icon>
+      </ion-button>
+    </ion-toolbar>
+  </ion-footer>
+</ion-content>
+

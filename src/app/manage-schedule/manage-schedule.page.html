@@ -1,0 +1,49 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/tabs/tab2"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Gestionar Horario</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-list>
+    <ion-list-header>
+      <ion-label>{{ claseInfo }}</ion-label>
+    </ion-list-header>
+
+    @if (horarios.length > 0) {
+      @for (horario of horarios; track horario.id) {
+        <ion-item-sliding>
+          <ion-item>
+            <ion-label>
+              <h2>{{ getDiaNombre(horario.dia) }}</h2>
+              <p>{{ horario.horaInicio }} - {{ horario.horaFin }}</p>
+              <p>Aula: {{ horario.aula }}</p>
+            </ion-label>
+          </ion-item>
+          <ion-item-options side="end">
+            <ion-item-option color="danger" (click)="deleteHorario(horario.id)">
+               <!-- CORRECCIÓN: Usar [icon] en lugar de name -->
+              <ion-icon slot="icon-only" [icon]="icons['trash']"></ion-icon>
+            </ion-item-option>
+          </ion-item-options>
+        </ion-item-sliding>
+      }
+    } @else {
+      <ion-item lines="none">
+        <ion-label class="ion-text-center">No hay horarios definidos para esta clase.</ion-label>
+      </ion-item>
+    }
+  </ion-list>
+
+  <ion-fab vertical="bottom" horizontal="end" slot="fixed">
+    <ion-fab-button (click)="addHorario()">
+       <!-- CORRECCIÓN: Usar [icon] en lugar de name -->
+      <ion-icon [icon]="icons['add']"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
+</ion-content>
+
+

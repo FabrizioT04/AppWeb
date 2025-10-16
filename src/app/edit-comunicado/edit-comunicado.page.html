@@ -1,0 +1,29 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/tabs/tab1"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Editar Comunicado</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <ion-spinner *ngIf="cargando" name="crescent" class="spinner-center"></ion-spinner>
+
+  <div *ngIf="!cargando">
+    <ion-list>
+      <ion-item>
+        <ion-input label="Título" labelPlacement="floating" [(ngModel)]="comunicado.titulo" type="text" required></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-textarea label="Mensaje" labelPlacement="floating" [(ngModel)]="comunicado.mensaje" [autoGrow]="true" required></ion-textarea>
+      </ion-item>
+    </ion-list>
+
+    <ion-button expand="block" (click)="guardarCambios()" [disabled]="guardando" class="ion-margin-top">
+      <ion-spinner *ngIf="guardando" name="crescent"></ion-spinner>
+      <span *ngIf="!guardando">Guardar Cambios</span>
+    </ion-button>
+  </div>
+</ion-content>
+
